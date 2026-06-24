@@ -83,5 +83,8 @@ def build_graph():
 
     # ── 6. Compile with persistence ──────────────────────────────────
     checkpointer = get_checkpointer()
-    app = graph.compile(checkpointer=checkpointer)
+    app = graph.compile(
+        checkpointer=checkpointer,
+        interrupt_before=["escalation_agent"],
+    )
     return app

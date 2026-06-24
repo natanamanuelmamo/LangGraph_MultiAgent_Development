@@ -199,6 +199,8 @@ python main.py --all
 - **Reflection Agent** — QA-reviews every response for clarity, tone, and completeness before it reaches the customer
 - **Analytics Dashboard** — after running all scenarios, prints aggregate stats: escalation rate, resolution rate, category/priority breakdowns, tool usage, and routing path metrics
 - **Escalation Notifications** — escalation agent prints a simulated email/Telegram notification to the console
+- **Human-in-the-Loop (HITL)** — When the specialist agent recommends escalation, the graph automatically pauses before the escalation_agent using LangGraph's interrupt_before feature. The human reviewer sees the full ticket summary, agent notes, and escalation reason, then types 'approve' or 'reject'. If approved, the graph resumes and runs the escalation agent normally. If rejected, escalation_required is set to False and the ticket routes directly to reflection and final response without escalation. This is implemented via interrupt_before=["escalation_agent"] in graph.compile().
+- **Multiple Tool Selection** — Three specialist agents (billing_agent, technical_agent, account_agent) now use dynamic tool selection via LangChain's bind_tools() API. Instead of calling tools in a hardcoded sequence, the LLM receives a list of available tools relevant to its domain and autonomously decides which ones to call based on the ticket content. For example, a simple billing question may only trigger search_knowledge_base, while a complex billing issue triggers both lookup_subscription and get_ticket_history. The smart tool caller is implemented in agents/smart_tool_caller.py and the tool registry is in tools/tool_registry.py. Tool selection decisions are logged with [SMART TOOLS] prefix.
 
 ---
 
