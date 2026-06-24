@@ -48,7 +48,10 @@ Analyse the technical issue:
 1. Is this a known bug with a documented fix?
 2. Has the customer reported similar issues before?
 3. Is the business impact severe enough to warrant escalation?
+If the customer mentions losing business, revenue impact, or inability to work, set escalation_required to true.
 4. What resolution steps can you provide?
+
+IMPORTANT: Never include placeholder text like [insert X] or [example] in your resolution. Write the complete response.
 
 Respond with ONLY valid JSON (no markdown fences):
 {{

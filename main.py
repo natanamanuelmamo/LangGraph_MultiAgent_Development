@@ -58,7 +58,7 @@ def run_single_ticket(app, ticket_id: str, customer_id: str, message: str) -> di
 def main():
     print("=" * 70)
     print("  CUSTOMER SUPPORT ESCALATION SYSTEM")
-    print("  Powered by LangGraph + Grok (xAI)")
+    print("  Powered by LangGraph + Groq (llama-3.3-70b-versatile)")
     print("=" * 70)
 
     app = build_graph()

@@ -47,6 +47,22 @@ Respond with ONLY valid JSON:
     try:
         result = invoke_llm_with_fallback("escalation_agent", prompt, state)
         escalation_notes = result.get("escalation_notes", "Escalation summary unavailable.")
+        
+        # If LLM returned a dict instead of a string, format it nicely
+        if isinstance(escalation_notes, dict):
+            lines = ["=== ESCALATION SUMMARY ==="]
+            for section, content in escalation_notes.items():
+                lines.append(f"\n[{section.upper().replace('_', ' ')}]")
+                if isinstance(content, dict):
+                    for k, v in content.items():
+                        lines.append(f"  {k}: {v}")
+                elif isinstance(content, list):
+                    for item in content:
+                        lines.append(f"  - {item}")
+                else:
+                    lines.append(f"  {content}")
+            escalation_notes = "\n".join(lines)
+
         escalation_reason = result.get("escalation_reason", state.get("escalation_reason", ""))
     except Exception as e:
         print(f"[AGENT] escalation_agent error: {e}")
